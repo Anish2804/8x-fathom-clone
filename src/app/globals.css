@@ -105,7 +105,7 @@ body {
 
 .wave-bar {
   transform-origin: center;
-  transition: height 120ms ease, background-color 120ms ease;
+  transition: height 180ms ease-out, background-color 180ms ease-out;
 }
 
 .surface {
@@ -116,3 +116,128 @@ body {
     0 12px 28px -20px var(--shadow);
 }
 
+.meeting-card {
+  transition:
+    transform 200ms ease-out,
+    box-shadow 200ms ease-out,
+    border-color 200ms ease-out;
+}
+
+.meeting-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 0 var(--surface-shine),
+    0 18px 36px -20px rgba(16, 22, 40, 0.42);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-enter {
+  animation: page-in 200ms ease-out;
+}
+
+@keyframes line-pulse {
+  0% {
+    background-color: transparent;
+  }
+  28% {
+    background-color: var(--accent-soft);
+  }
+  62% {
+    background-color: var(--accent-soft);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.line-pulse {
+  animation: line-pulse 620ms ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modal-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.modal-backdrop {
+  animation: fade-in 200ms ease-out;
+}
+
+.modal-panel {
+  animation: modal-in 220ms ease-out;
+}
+
+.modal-backdrop.is-closing {
+  animation: fade-out 180ms ease-out forwards;
+}
+
+.modal-panel.is-closing {
+  animation: modal-out 180ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-ready :where(body, header, main, .surface, section, article, p, h1, h2, h3, li, label, kbd, input):not(.meeting-card) {
+    transition:
+      background-color 220ms ease-out,
+      color 220ms ease-out,
+      border-color 220ms ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .meeting-card:hover {
+    transform: none;
+  }
+}

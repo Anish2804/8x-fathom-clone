@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Avatar } from "@/components/Avatar";
 import { IconCheck, IconCopy, IconMark } from "@/components/icons";
 import { formatClock } from "@/lib/format";
@@ -25,6 +25,31 @@ export function TranscriptPane({
   onHighlight: (h: Highlight) => void;
 }) {
   const [copied, setCopied] = useState(false);
+  const [pulse, setPulse] = useState<{ id: string; n: number } | null>(() =>
+    activeLineId ? { id: activeLineId, n: 1 } : null,
+  );
+  const listRef = useRef<HTMLDivElement>(null);
+
+  function scrollLine(id: string) {
+    const scroller = listRef.current;
+    const el = document.getElementById(id);
+    if (!scroller || !el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const elRect = el.getBoundingClientRect();
+    const scrollerRect = scroller.getBoundingClientRect();
+    const top = scroller.scrollTop + (elRect.top - scrollerRect.top) - scroller.clientHeight / 2 + el.clientHeight / 2;
+    scroller.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+  }
+
+  function jumpTo(ms: number, id: string) {
+    onSeek(ms, id);
+    setPulse((prev) => ({ id, n: (prev?.n ?? 0) + 1 }));
+    if (id === activeLineId) scrollLine(id);
+  }
+
+  useEffect(() => {
+    if (activeLineId) scrollLine(activeLineId);
+  }, [activeLineId]);
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return meeting.transcript;
@@ -74,30 +99,30 @@ export function TranscriptPane({
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
-      <div className="flex-1 space-y-1 overflow-y-auto p-2">
+      <div ref={listRef} className="flex-1 space-y-1 overflow-y-auto p-2">
         {filtered.length === 0 && (
           <p className="px-3 py-10 text-center text-sm text-[var(--muted)]">No lines match that search.</p>
         )}
         {filtered.map((line) => {
           const speaker = meeting.participants.find((p) => p.id === line.speakerId);
           const live = currentMs >= line.startMs && currentMs < line.endMs;
-          const jumped = activeLineId === line.id;
+          const pulsing = pulse?.id === line.id;
           return (
             <article
               id={line.id}
-              key={line.id}
+              key={pulsing ? `${line.id}-${pulse.n}` : line.id}
               role="button"
               tabIndex={0}
-              onClick={() => onSeek(line.startMs, line.id)}
+              onClick={() => jumpTo(line.startMs, line.id)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  onSeek(line.startMs, line.id);
+                  jumpTo(line.startMs, line.id);
                 }
               }}
-              className={`group cursor-pointer rounded-2xl px-3 py-2.5 text-left transition ${
-                live || jumped ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--bg-muted)]"
-              }`}
+              className={`group cursor-pointer rounded-2xl px-3 py-2.5 text-left transition-colors duration-200 ease-out ${
+                live ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--bg-muted)]"
+              } ${pulsing ? "line-pulse" : ""}`}
             >
               <div className="mb-1 flex items-center gap-2">
                 {speaker && <Avatar person={speaker} size={22} />}
@@ -106,7 +131,7 @@ export function TranscriptPane({
                   className="font-mono text-[11px] text-[var(--accent)] hover:underline"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onSeek(line.startMs, line.id);
+                    jumpTo(line.startMs, line.id);
                   }}
                 >
                   {formatClock(line.startMs)}

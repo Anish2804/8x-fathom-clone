@@ -17,6 +17,18 @@ export function ShareClipModal({
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
   const [sent, setSent] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  function requestClose() {
+    if (closing) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      onClose();
+      return;
+    }
+    setClosing(true);
+    window.setTimeout(onClose, 180);
+  }
   const link = useMemo(() => {
     const origin = typeof window === "undefined" ? "https://harbor.notes" : window.location.origin;
     return `${origin}/meetings/${meeting.id}?t=${Math.round(currentMs)}&share=clip`;
@@ -29,11 +41,14 @@ export function ShareClipModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center" onClick={onClose}>
+    <div
+      className={`modal-backdrop fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center ${closing ? "is-closing" : ""}`}
+      onClick={requestClose}
+    >
       <div
         role="dialog"
         aria-labelledby="share-clip-title"
-        className="surface w-full max-w-md rounded-3xl p-5"
+        className={`modal-panel surface w-full max-w-md rounded-3xl p-5 ${closing ? "is-closing" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--muted)]">Share a clip</p>
@@ -91,7 +106,7 @@ export function ShareClipModal({
             Invite queued for {email}. No message left this browser.
           </p>
         )}
-        <button onClick={onClose} className="mt-4 w-full text-sm text-[var(--muted)] hover:text-[var(--ink)]">
+        <button onClick={requestClose} className="mt-4 w-full text-sm text-[var(--muted)] hover:text-[var(--ink)]">
           Close
         </button>
       </div>

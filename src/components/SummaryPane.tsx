@@ -69,7 +69,7 @@ export function SummaryPane({
             <button
               key={item.id}
               onClick={() => setTemplate(item.id)}
-              className={`rounded-full px-2.5 py-1 text-[11px] ${
+              className={`rounded-full px-2.5 py-1 text-[11px] transition-colors duration-200 ease-out ${
                 template === item.id
                   ? "bg-[var(--mark)] font-medium text-[var(--on-mark)]"
                   : "border border-[var(--line)] text-[var(--muted)] hover:bg-[var(--bg-muted)]"

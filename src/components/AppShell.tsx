@@ -70,7 +70,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
+                className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors duration-200 ease-out ${
                   active
                     ? "bg-[var(--nav-active)] text-[var(--sidebar-ink)]"
                     : "text-[var(--sidebar-muted)] hover:bg-[var(--nav-hover)] hover:text-[var(--sidebar-ink)]"
@@ -78,6 +78,12 @@ export function AppShell({ children }: { children: ReactNode }) {
               >
                 <Icon className="h-4 w-4" />
                 {link.label}
+                <span
+                  aria-hidden
+                  className={`pointer-events-none absolute bottom-1.5 left-3 h-px w-8 origin-left bg-[var(--accent)] transition-[scale] duration-200 ease-out ${
+                    active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-75"
+                  }`}
+                />
               </Link>
             );
           })}
@@ -135,7 +141,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
           </div>
         </header>
-        <main className="px-4 py-6 sm:px-8">{children}</main>
+        <main key={pathname} className="page-enter px-4 py-6 sm:px-8">
+          {children}
+        </main>
       </div>
     </div>
   );

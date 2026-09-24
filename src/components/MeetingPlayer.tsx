@@ -60,7 +60,7 @@ export function MeetingPlayer({
 
       <div
         ref={trackRef}
-        className="flex h-24 cursor-pointer items-end gap-[3px] rounded-2xl bg-black/25 px-3 py-3"
+        className="relative h-24 cursor-pointer rounded-2xl bg-black/25"
         onClick={(e) => seekFromEvent(e.clientX)}
         role="slider"
         aria-valuemin={0}
@@ -68,19 +68,30 @@ export function MeetingPlayer({
         aria-valuenow={currentMs}
         aria-label="Playback position"
       >
-        {bars.map((height, i) => {
-          const active = i / bars.length <= progress;
-          return (
-            <span
-              key={i}
-              className="wave-bar w-full rounded-full"
-              style={{
-                height: `${playing ? height : height * 0.72}%`,
-                background: active ? "#8ea4ff" : "rgba(255,255,255,0.18)",
-              }}
-            />
-          );
-        })}
+        <div className="absolute inset-x-3 bottom-3 top-3 flex items-end gap-[3px]">
+          {bars.map((height, i) => {
+            const active = i / bars.length <= progress;
+            return (
+              <span
+                key={i}
+                className="wave-bar w-full rounded-full"
+                style={{
+                  height: `${playing ? height : height * 0.72}%`,
+                  background: active ? "#8ea4ff" : "rgba(255,255,255,0.18)",
+                }}
+              />
+            );
+          })}
+        </div>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute bottom-3 top-3 w-0.5 rounded-full bg-[#f5b754]"
+          style={{
+            left: `calc(12px + (100% - 24px) * ${progress})`,
+            transform: "translateX(-50%)",
+            transition: playing ? "none" : "left 180ms ease-out",
+          }}
+        />
       </div>
 
       <div className="mt-4 flex items-center justify-center gap-3">

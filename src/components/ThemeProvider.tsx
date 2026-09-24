@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useSyncExternalStore, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useSyncExternalStore, type ReactNode } from "react";
 import { loadTheme, saveTheme } from "@/lib/storage";
 
 type Theme = "light" | "dark";
@@ -31,6 +31,10 @@ const ThemeContext = createContext<{
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const theme = useSyncExternalStore(subscribe, getSnapshot, () => "dark" as const);
+
+  useEffect(() => {
+    document.documentElement.classList.add("theme-ready");
+  }, []);
 
   const toggle = useCallback(() => {
     const next: Theme = theme === "dark" ? "light" : "dark";
