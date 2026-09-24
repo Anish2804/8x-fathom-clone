@@ -48,7 +48,7 @@ export function EmptyState({
   body: string;
 }) {
   return (
-    <div className="rounded-2xl border border-dashed border-white/15 bg-[var(--bg-elev)] px-6 py-16 text-center">
+    <div className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--bg-elev)] px-6 py-16 text-center">
       <p className="font-[family-name:var(--font-display)] text-xl">{title}</p>
       <p className="mt-2 text-sm text-[var(--muted)]">{body}</p>
     </div>

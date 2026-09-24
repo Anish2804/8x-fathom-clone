@@ -90,7 +90,7 @@ export default function AskPage() {
             placeholder="Ask about a person, decision, or risk…"
             className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm outline-none"
           />
-          <button type="submit" className="rounded-xl bg-[var(--accent)] px-4 text-sm font-medium text-[var(--on-accent)]">
+          <button type="submit" className="rounded-xl bg-[var(--mark)] px-4 text-sm font-medium text-[var(--on-mark)] hover:bg-[var(--mark-hover)]">
             Ask
           </button>
         </div>

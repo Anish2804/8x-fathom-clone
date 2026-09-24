@@ -28,7 +28,7 @@ export default function HomePage() {
       </div>
 
       <section className="mb-8 grid gap-3 sm:grid-cols-4">
-        <Stat label="Recorded" value={String(s.recorded)} />
+        <Stat label="Recorded" value={String(s.recorded)} tone="success" />
         <Stat label="Upcoming" value={String(s.upcoming)} />
         <Stat label="Open actions" value={String(s.openActions)} />
         <Stat label="Hours captured" value={String(s.hours)} />
@@ -60,11 +60,17 @@ export default function HomePage() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, tone }: { label: string; value: string; tone?: "success" }) {
   return (
     <div className="surface rounded-2xl p-4">
       <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">{label}</p>
-      <p className="mt-2 font-[family-name:var(--font-display)] text-3xl">{value}</p>
+      <p
+        className={`mt-2 font-[family-name:var(--font-display)] text-3xl ${
+          tone === "success" ? "text-[var(--success)]" : ""
+        }`}
+      >
+        {value}
+      </p>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { statusLabel, typeLabel } from "@/lib/format";
 import type { MeetingStatus, MeetingType } from "@/lib/types";
 
 const statusClass: Record<MeetingStatus, string> = {
-  ready: "bg-[var(--accent-soft)] text-[var(--accent)]",
+  ready: "bg-[var(--success-soft)] text-[var(--success)]",
   upcoming: "bg-[var(--bg-muted)] text-[var(--ink-soft)]",
   processing: "bg-[var(--warn-soft)] text-[var(--warn)]",
 };

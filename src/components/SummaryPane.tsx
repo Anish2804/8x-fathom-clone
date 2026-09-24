@@ -58,7 +58,7 @@ export function SummaryPane({
           </button>
           <button
             onClick={() => setShareOpen(true)}
-            className="inline-flex items-center gap-1 rounded-full border border-[var(--line)] px-2.5 py-1 text-[11px] hover:bg-[var(--bg-muted)]"
+            className="inline-flex items-center gap-1 rounded-full bg-[var(--mark)] px-2.5 py-1 text-[11px] font-medium text-[var(--on-mark)] hover:bg-[var(--mark-hover)]"
           >
             <IconShare className="h-3.5 w-3.5" />
             Share
@@ -71,7 +71,7 @@ export function SummaryPane({
               onClick={() => setTemplate(item.id)}
               className={`rounded-full px-2.5 py-1 text-[11px] ${
                 template === item.id
-                  ? "bg-[var(--accent)] font-medium text-[var(--on-accent)]"
+                  ? "bg-[var(--mark)] font-medium text-[var(--on-mark)]"
                   : "border border-[var(--line)] text-[var(--muted)] hover:bg-[var(--bg-muted)]"
               }`}
             >
@@ -120,7 +120,7 @@ export function SummaryPane({
                     onToggleAction(item.id, next);
                   }}
                   className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
-                    done ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "border-[var(--line)]"
+                    done ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--on-accent)]" : "border-[var(--line)]"
                   }`}
                   aria-label={done ? "Mark open" : "Mark done"}
                 >

@@ -45,15 +45,15 @@ export function MeetingPlayer({
   }
 
   return (
-    <section className="overflow-hidden rounded-3xl border border-[var(--line)] bg-[linear-gradient(180deg,#10241e_0%,#0c1915_100%)] p-5 text-white shadow-[var(--shadow)]">
+    <section className="overflow-hidden rounded-3xl border border-[var(--line)] bg-[linear-gradient(180deg,#1a2340_0%,#10151f_100%)] p-5 text-white shadow-[var(--shadow)]">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-emerald-200/70">Mocked playback</p>
-          <p className="mt-1 text-sm text-emerald-50/80">
+          <p className="text-xs uppercase tracking-[0.16em] text-indigo-200/70">Mocked playback</p>
+          <p className="mt-1 text-sm text-indigo-50/80">
             No Zoom/Meet bot. Timeline is simulated so transcript, highlights, and search still work.
           </p>
         </div>
-        <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-emerald-100">
+        <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-indigo-100">
           {formatClock(currentMs)} / {formatClock(durationMs)}
         </span>
       </div>
@@ -76,7 +76,7 @@ export function MeetingPlayer({
               className="wave-bar w-full rounded-full"
               style={{
                 height: `${playing ? height : height * 0.72}%`,
-                background: active ? "#34d399" : "rgba(255,255,255,0.18)",
+                background: active ? "#8ea4ff" : "rgba(255,255,255,0.18)",
               }}
             />
           );
@@ -92,7 +92,7 @@ export function MeetingPlayer({
           <IconSkipBack className="h-5 w-5" />
         </button>
         <button
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--mark)] text-[var(--on-mark)] hover:bg-[var(--mark-hover)]"
           onClick={onToggle}
           aria-label={playing ? "Pause" : "Play"}
         >
@@ -112,7 +112,7 @@ export function MeetingPlayer({
         max={durationMs}
         value={currentMs}
         onChange={(e) => onSeek(Number(e.target.value))}
-        className="mt-4 h-1.5 w-full cursor-pointer accent-emerald-400"
+        className="mt-4 h-1.5 w-full cursor-pointer accent-[#f5b754]"
       />
     </section>
   );
