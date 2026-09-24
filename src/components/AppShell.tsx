@@ -11,6 +11,7 @@ import {
   IconMenu,
   IconSearch,
   IconSpark,
+  IconTrends,
 } from "@/components/icons";
 
 const links = [
@@ -19,6 +20,7 @@ const links = [
   { href: "/ask", label: "Ask Harbor", icon: IconAsk },
   { href: "/search", label: "Search", icon: IconSearch },
   { href: "/highlights", label: "Highlights", icon: IconMark },
+  { href: "/trends", label: "Trends", icon: IconTrends },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {

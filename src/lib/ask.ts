@@ -84,7 +84,13 @@ export function askHarbor(question: string): AskAnswer {
 
   return {
     answer,
-    citations: top.map(({ score: _s, ...rest }) => rest),
+      citations: top.map((hit) => ({
+        meetingId: hit.meetingId,
+        meetingTitle: hit.meetingTitle,
+        speaker: hit.speaker,
+        snippet: hit.snippet,
+        href: hit.href,
+      })),
   };
 }
 
