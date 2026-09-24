@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import {
+  IconAsk,
   IconCalendar,
   IconHome,
   IconMark,
@@ -15,6 +16,7 @@ import {
 const links = [
   { href: "/", label: "Home", icon: IconHome },
   { href: "/meetings", label: "Meetings", icon: IconCalendar },
+  { href: "/ask", label: "Ask Harbor", icon: IconAsk },
   { href: "/search", label: "Search", icon: IconSearch },
   { href: "/highlights", label: "Highlights", icon: IconMark },
 ];

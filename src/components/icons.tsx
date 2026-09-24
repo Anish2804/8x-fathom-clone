@@ -160,3 +160,20 @@ export function IconSkipFwd(props: IconProps) {
     </svg>
   );
 }
+
+export function IconAsk(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...props}>
+      <path d="M5 16.5 4 20l3.8-1.2A8 8 0 1 0 5 16.5Z" />
+    </svg>
+  );
+}
+
+export function IconTrends(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...props}>
+      <path d="M4 16.5 9 11l3.5 3.5L20 7" />
+      <path d="M14.5 7H20v5.5" />
+    </svg>
+  );
+}
