@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Avatar } from "@/components/Avatar";
 import { IconCheck, IconCopy, IconShare } from "@/components/icons";
 import { formatClock } from "@/lib/format";
 import { saveActionStatus } from "@/lib/storage";
+import { applySummaryTemplate, SUMMARY_TEMPLATES, type SummaryTemplateId } from "@/lib/templates";
 import type { ActionItem, Highlight, Meeting } from "@/lib/types";
 
 export function SummaryPane({
@@ -21,28 +22,18 @@ export function SummaryPane({
   onJump: (ms: number) => void;
 }) {
   const [copied, setCopied] = useState<"summary" | "link" | null>(null);
+  const [template, setTemplate] = useState<SummaryTemplateId>("general");
+  const summary = useMemo(() => applySummaryTemplate(meeting, template), [meeting, template]);
 
   async function copySummary() {
     const text = [
       meeting.title,
+      `Template: ${SUMMARY_TEMPLATES.find((t) => t.id === template)?.label}`,
       "",
       "Overview",
-      meeting.overview,
+      summary.overview,
       "",
-      "Key takeaways",
-      ...meeting.takeaways.map((t) => `• ${t}`),
-      "",
-      "Decisions",
-      ...meeting.decisions.map((t) => `• ${t}`),
-      "",
-      "Action items",
-      ...actionItems.map((a) => {
-        const who = meeting.participants.find((p) => p.id === a.assigneeId)?.name ?? "Unassigned";
-        return `• [${a.status}] ${a.text} (${who}${a.due ? `, ${a.due}` : ""})`;
-      }),
-      "",
-      "Follow-ups",
-      ...meeting.followUps.map((t) => `• ${t}`),
+      ...summary.sections.flatMap((section) => [section.title, ...section.items.map((t) => `• ${t}`), ""]),
     ].join("\n");
     await navigator.clipboard.writeText(text);
     setCopied("summary");
@@ -58,7 +49,7 @@ export function SummaryPane({
   return (
     <aside id="summary" className="space-y-4">
       <section className="rounded-3xl border border-[var(--line)] bg-[var(--bg-elev)] p-5">
-        <div className="mb-3 flex items-center gap-2">
+        <div className="mb-3 flex flex-wrap items-center gap-2">
           <h2 className="mr-auto font-[family-name:var(--font-display)] text-lg">AI summary</h2>
           <button
             onClick={copySummary}
@@ -75,10 +66,25 @@ export function SummaryPane({
             Share
           </button>
         </div>
-        <p className="text-sm leading-relaxed text-[var(--ink-soft)]">{meeting.overview}</p>
-        <Block title="Key takeaways" items={meeting.takeaways} />
-        <Block title="Decisions" items={meeting.decisions} />
-        <Block title="Follow-ups" items={meeting.followUps} />
+        <div className="mb-4 flex flex-wrap gap-1.5">
+          {SUMMARY_TEMPLATES.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setTemplate(item.id)}
+              className={`rounded-full px-2.5 py-1 text-[11px] ${
+                template === item.id
+                  ? "bg-[var(--accent)] font-medium text-[#0c1613]"
+                  : "border border-[var(--line)] text-[var(--muted)] hover:bg-[var(--bg-muted)]"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+        <p className="text-sm leading-relaxed text-[var(--ink-soft)]">{summary.overview}</p>
+        {summary.sections.map((section) => (
+          <Block key={section.title} title={section.title} items={section.items} />
+        ))}
       </section>
 
       <section className="rounded-3xl border border-[var(--line)] bg-[var(--bg-elev)] p-5">
