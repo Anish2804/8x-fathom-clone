@@ -62,7 +62,7 @@ export default function HomePage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-[var(--line)] bg-[var(--bg-elev)] p-4 shadow-[var(--shadow)]">
+    <div className="surface rounded-2xl p-4">
       <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">{label}</p>
       <p className="mt-2 font-[family-name:var(--font-display)] text-3xl">{value}</p>
     </div>

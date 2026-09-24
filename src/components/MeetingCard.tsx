@@ -14,7 +14,7 @@ export function MeetingCard({
   return (
     <Link
       href={`/meetings/${meeting.id}`}
-      className="group block rounded-2xl border border-[var(--line)] bg-[var(--bg-elev)] p-4 shadow-[var(--shadow)] transition hover:-translate-y-0.5 hover:border-[var(--accent)]/40"
+      className="surface group block rounded-2xl p-4 transition hover:-translate-y-0.5 hover:border-[var(--accent)]/35"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
@@ -48,7 +48,7 @@ export function EmptyState({
   body: string;
 }) {
   return (
-    <div className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--bg-elev)] px-6 py-16 text-center">
+    <div className="rounded-2xl border border-dashed border-white/15 bg-[var(--bg-elev)] px-6 py-16 text-center">
       <p className="font-[family-name:var(--font-display)] text-xl">{title}</p>
       <p className="mt-2 text-sm text-[var(--muted)]">{body}</p>
     </div>

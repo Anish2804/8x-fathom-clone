@@ -82,3 +82,11 @@ body {
   transform-origin: center;
   transition: height 120ms ease, background-color 120ms ease;
 }
+
+.surface {
+  background: var(--bg-elev);
+  border: 1px solid rgba(232, 241, 236, 0.14);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04),
+    0 12px 28px -20px rgba(0, 0, 0, 0.85);
+}
