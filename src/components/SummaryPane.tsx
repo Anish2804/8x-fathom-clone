@@ -82,7 +82,10 @@ export function SummaryPane({
       </section>
 
       <section className="rounded-3xl border border-[var(--line)] bg-[var(--bg-elev)] p-5">
-        <h2 className="mb-3 font-[family-name:var(--font-display)] text-lg">Key topics</h2>
+        <div className="mb-3">
+          <h2 className="font-[family-name:var(--font-display)] text-lg">Key topics</h2>
+          <p className="mt-1 text-[11px] text-[var(--muted)]">Topic prominence in this transcript</p>
+        </div>
         <div className="space-y-3">
           {meeting.topics.map((topic) => (
             <div key={topic.name}>
