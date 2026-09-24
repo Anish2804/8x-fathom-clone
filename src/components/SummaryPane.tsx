@@ -71,7 +71,7 @@ export function SummaryPane({
               onClick={() => setTemplate(item.id)}
               className={`rounded-full px-2.5 py-1 text-[11px] ${
                 template === item.id
-                  ? "bg-[var(--accent)] font-medium text-[#0c1613]"
+                  ? "bg-[var(--accent)] font-medium text-[var(--on-accent)]"
                   : "border border-[var(--line)] text-[var(--muted)] hover:bg-[var(--bg-muted)]"
               }`}
             >

@@ -29,12 +29,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`dark ${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[var(--bg)] font-sans text-[var(--ink)]">
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add("dark");`,
+            __html: `try{var t=JSON.parse(localStorage.getItem("harbor.theme")||'"dark"');if(t==="light")document.documentElement.classList.remove("dark");else document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}`,
           }}
         />
         <ThemeProvider>

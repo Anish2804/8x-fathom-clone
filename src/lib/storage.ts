@@ -50,10 +50,7 @@ export function saveActionStatus(meetingId: string, actionId: string, status: Ac
 export function loadTheme(): "light" | "dark" {
   const value = readJson<"light" | "dark" | null>(THEME_KEY, null);
   if (value === "light" || value === "dark") return value;
-  if (typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    return "dark";
-  }
-  return "light";
+  return "dark";
 }
 
 export function saveTheme(theme: "light" | "dark") {
