@@ -6,6 +6,7 @@ import { IconCheck, IconCopy, IconShare } from "@/components/icons";
 import { formatClock } from "@/lib/format";
 import { saveActionStatus } from "@/lib/storage";
 import { applySummaryTemplate, SUMMARY_TEMPLATES, type SummaryTemplateId } from "@/lib/templates";
+import { ShareClipModal } from "@/components/ShareClipModal";
 import type { ActionItem, Highlight, Meeting } from "@/lib/types";
 
 export function SummaryPane({
@@ -14,15 +15,18 @@ export function SummaryPane({
   highlights,
   onToggleAction,
   onJump,
+  currentMs,
 }: {
   meeting: Meeting;
   actionItems: ActionItem[];
   highlights: Highlight[];
   onToggleAction: (id: string, next: ActionItem["status"]) => void;
   onJump: (ms: number) => void;
+  currentMs: number;
 }) {
-  const [copied, setCopied] = useState<"summary" | "link" | null>(null);
+  const [copied, setCopied] = useState(false);
   const [template, setTemplate] = useState<SummaryTemplateId>("general");
+  const [shareOpen, setShareOpen] = useState(false);
   const summary = useMemo(() => applySummaryTemplate(meeting, template), [meeting, template]);
 
   async function copySummary() {
@@ -36,14 +40,8 @@ export function SummaryPane({
       ...summary.sections.flatMap((section) => [section.title, ...section.items.map((t) => `• ${t}`), ""]),
     ].join("\n");
     await navigator.clipboard.writeText(text);
-    setCopied("summary");
-    setTimeout(() => setCopied(null), 1600);
-  }
-
-  async function copyLink() {
-    await navigator.clipboard.writeText(window.location.href);
-    setCopied("link");
-    setTimeout(() => setCopied(null), 1600);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1600);
   }
 
   return (
@@ -55,14 +53,14 @@ export function SummaryPane({
             onClick={copySummary}
             className="inline-flex items-center gap-1 rounded-full border border-[var(--line)] px-2.5 py-1 text-[11px] hover:bg-[var(--bg-muted)]"
           >
-            {copied === "summary" ? <IconCheck className="h-3.5 w-3.5" /> : <IconCopy className="h-3.5 w-3.5" />}
-            Copy
+            {copied ? <IconCheck className="h-3.5 w-3.5" /> : <IconCopy className="h-3.5 w-3.5" />}
+            {copied ? "Copied" : "Copy"}
           </button>
           <button
-            onClick={copyLink}
+            onClick={() => setShareOpen(true)}
             className="inline-flex items-center gap-1 rounded-full border border-[var(--line)] px-2.5 py-1 text-[11px] hover:bg-[var(--bg-muted)]"
           >
-            {copied === "link" ? <IconCheck className="h-3.5 w-3.5" /> : <IconShare className="h-3.5 w-3.5" />}
+            <IconShare className="h-3.5 w-3.5" />
             Share
           </button>
         </div>
@@ -163,6 +161,9 @@ export function SummaryPane({
           </ul>
         )}
       </section>
+      {shareOpen && (
+        <ShareClipModal meeting={meeting} currentMs={currentMs} onClose={() => setShareOpen(false)} />
+      )}
     </aside>
   );
 }

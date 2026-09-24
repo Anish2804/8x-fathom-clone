@@ -130,6 +130,7 @@ export function MeetingDetail({ meeting }: { meeting: Meeting }) {
           meeting={meeting}
           actionItems={actionItems}
           highlights={highlights}
+          currentMs={playback.currentMs}
           onToggleAction={(id, next) => setOverrides((curr) => ({ ...curr, [id]: next }))}
           onJump={(ms) => playback.seek(ms)}
         />
