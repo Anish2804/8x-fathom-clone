@@ -103,9 +103,11 @@ export function AppShell({ children }: { children: ReactNode }) {
             >
               <IconMenu className="h-5 w-5" />
             </button>
-            <p className="hidden text-sm text-[var(--muted)] sm:block">
-              Never miss what was said
-            </p>
+            {pathname === "/" && (
+              <p className="hidden text-sm text-[var(--muted)] sm:block">
+                Never miss what was said
+              </p>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <Link
