@@ -86,7 +86,16 @@ export function TranscriptPane({
             <article
               id={line.id}
               key={line.id}
-              className={`group rounded-2xl px-3 py-2.5 transition ${
+              role="button"
+              tabIndex={0}
+              onClick={() => onSeek(line.startMs, line.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSeek(line.startMs, line.id);
+                }
+              }}
+              className={`group cursor-pointer rounded-2xl px-3 py-2.5 text-left transition ${
                 live || jumped ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--bg-muted)]"
               }`}
             >
@@ -95,12 +104,18 @@ export function TranscriptPane({
                 <span className="text-sm font-medium">{speaker?.name}</span>
                 <button
                   className="font-mono text-[11px] text-[var(--accent)] hover:underline"
-                  onClick={() => onSeek(line.startMs, line.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSeek(line.startMs, line.id);
+                  }}
                 >
                   {formatClock(line.startMs)}
                 </button>
                 <button
-                  onClick={() => highlightLine(line)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    highlightLine(line);
+                  }}
                   className="ml-auto hidden items-center gap-1 text-[11px] text-[var(--muted)] group-hover:flex hover:text-[var(--accent)]"
                 >
                   <IconMark className="h-3.5 w-3.5" />
