@@ -88,7 +88,7 @@ export function MeetingDetail({ meeting }: { meeting: Meeting }) {
             </span>
           </div>
         </div>
-        <AvatarStack people={meeting.participants} max={6} />
+        <AvatarStack people={meeting.participants} max={8} />
       </header>
 
       <ul className="flex flex-wrap gap-2">

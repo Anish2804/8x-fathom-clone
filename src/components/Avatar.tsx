@@ -26,7 +26,7 @@ export function Avatar({
 
 export function AvatarStack({
   people,
-  max = 4,
+  max = 8,
 }: {
   people: Participant[];
   max?: number;
