@@ -126,7 +126,7 @@ function HighlightQuery({ text, query }: { text: string; query: string }) {
   return (
     <>
       {text.slice(0, i)}
-      <mark className="rounded bg-amber-200/80 px-0.5 text-inherit dark:bg-amber-300/30">{text.slice(i, i + q.length)}</mark>
+                    <mark className="rounded bg-[var(--accent-soft)] px-0.5 text-[var(--accent)]">{text.slice(i, i + q.length)}</mark>
       {text.slice(i + q.length)}
     </>
   );

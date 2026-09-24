@@ -8,12 +8,9 @@ import {
   IconHome,
   IconMark,
   IconMenu,
-  IconMoon,
   IconSearch,
   IconSpark,
-  IconSun,
 } from "@/components/icons";
-import { useTheme } from "@/components/ThemeProvider";
 
 const links = [
   { href: "/", label: "Home", icon: IconHome },
@@ -25,7 +22,6 @@ const links = [
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -42,7 +38,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)]">
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 border-r border-white/5 bg-[var(--sidebar)] p-4 text-[var(--sidebar-ink)] transition-transform md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 border-r border-white/10 bg-[var(--sidebar)] p-4 text-[var(--sidebar-ink)] transition-transform md:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -118,14 +114,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               Search
               <kbd className="rounded bg-[var(--bg-muted)] px-1.5 py-0.5 font-mono text-[10px]">/</kbd>
             </Link>
-            <button
-              onClick={toggle}
-              className="rounded-full border border-[var(--line)] bg-[var(--bg-elev)] p-2 text-[var(--ink-soft)] hover:bg-[var(--bg-muted)]"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <IconSun className="h-4 w-4" /> : <IconMoon className="h-4 w-4" />}
-            </button>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-semibold text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-semibold text-[#0c1613]">
               AN
             </div>
           </div>
