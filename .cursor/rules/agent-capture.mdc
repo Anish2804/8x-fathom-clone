@@ -1,0 +1,12 @@
+---
+description: Keep 8x agent capture automatic and unedited
+alwaysApply: true
+---
+
+# Agent capture
+
+This repo logs Agent prompts and final responses automatically via Cursor hooks in `.cursor/hooks.json`.
+
+- Do not add `.agent-logs/` to `.gitignore`. The logs ship with the repo.
+- Do not edit, tidy, summarise, or delete entries in `.agent-logs/` after they are written.
+- Do not wrap sessions in a manual logger. Capture is the `beforeSubmitPrompt` and `afterAgentResponse` hooks running `.cursor/hooks/capture.cmd`.

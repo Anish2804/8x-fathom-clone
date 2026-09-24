@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "C:\\Users\\akash\\AppData\\Local\\Programs\\Python\\Python314\\python.exe .cursor/hooks/capture.py",
+        "timeout": 15
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "C:\\Users\\akash\\AppData\\Local\\Programs\\Python\\Python314\\python.exe .cursor/hooks/capture.py",
+        "timeout": 15
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": "C:\\Users\\akash\\AppData\\Local\\Programs\\Python\\Python314\\python.exe .cursor/hooks/capture.py",
+        "timeout": 30
+      }
+    ]
+  }
+}
