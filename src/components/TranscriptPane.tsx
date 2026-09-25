@@ -93,7 +93,7 @@ export function TranscriptPane({
         />
         <button
           onClick={copyAll}
-          className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] px-3 py-1.5 text-xs text-[var(--ink-soft)] hover:bg-[var(--bg-muted)]"
+          className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/40 px-3 py-1.5 text-xs text-[var(--accent)] hover:bg-[var(--accent-soft)]"
         >
           {copied ? <IconCheck className="h-3.5 w-3.5" /> : <IconCopy className="h-3.5 w-3.5" />}
           {copied ? "Copied" : "Copy"}

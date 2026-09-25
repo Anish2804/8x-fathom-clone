@@ -51,7 +51,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         }`}
       >
         <Link href="/" className="mb-8 flex items-center gap-2.5 px-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--accent)] text-[var(--on-accent)] shadow-[var(--shadow)]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--mark)] text-[var(--on-mark)]">
             <IconSpark className="h-5 w-5" />
           </span>
           <span>
@@ -136,7 +136,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             >
               {theme === "dark" ? <IconSun className="h-4 w-4" /> : <IconMoon className="h-4 w-4" />}
             </button>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-semibold text-[var(--on-accent)]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--mark)] text-xs font-semibold text-[var(--on-mark)]">
               AN
             </div>
           </div>

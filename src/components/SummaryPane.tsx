@@ -51,7 +51,7 @@ export function SummaryPane({
           <h2 className="mr-auto font-[family-name:var(--font-display)] text-lg">AI summary</h2>
           <button
             onClick={copySummary}
-            className="inline-flex items-center gap-1 rounded-full border border-[var(--line)] px-2.5 py-1 text-[11px] hover:bg-[var(--bg-muted)]"
+            className="inline-flex items-center gap-1 rounded-full border border-[var(--accent)]/40 px-2.5 py-1 text-[11px] text-[var(--accent)] hover:bg-[var(--accent-soft)]"
           >
             {copied ? <IconCheck className="h-3.5 w-3.5" /> : <IconCopy className="h-3.5 w-3.5" />}
             {copied ? "Copied" : "Copy"}

@@ -20,7 +20,7 @@ export default function HomePage() {
         </div>
         <Link
           href="/search"
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--bg-elev)] px-4 py-2 text-sm text-[var(--muted)] shadow-[var(--shadow)]"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/35 bg-transparent px-4 py-2 text-sm text-[var(--accent)]"
         >
           <IconSearch className="h-4 w-4" />
           Search meetings, people, transcripts
@@ -62,8 +62,8 @@ export default function HomePage() {
 
 function Stat({ label, value, tone }: { label: string; value: string; tone?: "success" }) {
   return (
-    <div className="surface rounded-2xl p-4">
-      <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">{label}</p>
+    <div className="surface rounded-2xl p-5">
+      <p className="eyebrow">{label}</p>
       <p
         className={`mt-2 font-[family-name:var(--font-display)] text-3xl ${
           tone === "success" ? "text-[var(--success)]" : ""

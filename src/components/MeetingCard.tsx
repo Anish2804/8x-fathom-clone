@@ -14,7 +14,7 @@ export function MeetingCard({
   return (
     <Link
       href={`/meetings/${meeting.id}`}
-      className="surface meeting-card group block rounded-2xl p-4 hover:border-[var(--accent)]/35"
+      className="surface meeting-card group block rounded-2xl p-5 hover:border-[var(--accent)]/40"
     >
       <div className="flex items-start justify-between gap-3">
         <div>

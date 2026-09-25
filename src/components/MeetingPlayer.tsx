@@ -45,15 +45,15 @@ export function MeetingPlayer({
   }
 
   return (
-    <section className="overflow-hidden rounded-3xl border border-[var(--line)] bg-[linear-gradient(180deg,#1a2340_0%,#10151f_100%)] p-5 text-white shadow-[var(--shadow)]">
+    <section className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[linear-gradient(180deg,#2a2420_0%,#1c1916_100%)] p-5 text-[#f3efe8]">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-indigo-200/70">Mocked playback</p>
-          <p className="mt-1 text-sm text-indigo-50/80">
+          <p className="eyebrow !text-[#cbbfb4]">Mocked playback</p>
+          <p className="mt-1 text-sm text-[#e7ddd2]">
             No Zoom/Meet bot. Timeline is simulated so transcript, highlights, and search still work.
           </p>
         </div>
-        <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-indigo-100">
+        <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-[#f3efe8]">
           {formatClock(currentMs)} / {formatClock(durationMs)}
         </span>
       </div>
@@ -77,7 +77,7 @@ export function MeetingPlayer({
                 className="wave-bar w-full rounded-full"
                 style={{
                   height: `${playing ? height : height * 0.72}%`,
-                  background: active ? "#8ea4ff" : "rgba(255,255,255,0.18)",
+                  background: active ? "#c1503a" : "rgba(243,239,232,0.2)",
                 }}
               />
             );
@@ -85,7 +85,7 @@ export function MeetingPlayer({
         </div>
         <span
           aria-hidden
-          className="pointer-events-none absolute bottom-3 top-3 w-0.5 rounded-full bg-[#f5b754]"
+          className="pointer-events-none absolute bottom-3 top-3 w-0.5 rounded-full bg-[#f3efe8]"
           style={{
             left: `calc(12px + (100% - 24px) * ${progress})`,
             transform: "translateX(-50%)",
@@ -123,7 +123,7 @@ export function MeetingPlayer({
         max={durationMs}
         value={currentMs}
         onChange={(e) => onSeek(Number(e.target.value))}
-        className="mt-4 h-1.5 w-full cursor-pointer accent-[#f5b754]"
+        className="mt-4 h-1.5 w-full cursor-pointer accent-[#c1503a]"
       />
     </section>
   );
