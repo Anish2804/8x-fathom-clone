@@ -6,12 +6,14 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   IconAsk,
   IconCalendar,
+  IconCalendarSync,
   IconHome,
   IconMark,
   IconMenu,
   IconMoon,
   IconSearch,
   IconSun,
+  IconTemplates,
   IconTrends,
 } from "@/components/icons";
 import { useTheme } from "@/components/ThemeProvider";
@@ -23,6 +25,8 @@ const links = [
   { href: "/search", label: "Search", icon: IconSearch },
   { href: "/highlights", label: "Highlights", icon: IconMark },
   { href: "/trends", label: "Trends", icon: IconTrends },
+  { href: "/templates", label: "Templates", icon: IconTemplates },
+  { href: "/calendar", label: "Calendar", icon: IconCalendarSync },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {

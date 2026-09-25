@@ -6,11 +6,12 @@ import { useEffect, useMemo, useState } from "react";
 import { AvatarStack } from "@/components/Avatar";
 import { StatusBadge, TypeBadge } from "@/components/Badges";
 import { MeetingPlayer, usePlayback } from "@/components/MeetingPlayer";
+import { ShareClipModal } from "@/components/ShareClipModal";
 import { SummaryPane } from "@/components/SummaryPane";
 import { TranscriptPane } from "@/components/TranscriptPane";
 import { formatDuration, formatMeetingWhen } from "@/lib/format";
 import { loadActionOverrides, loadUserHighlights } from "@/lib/storage";
-import type { ActionItem, Highlight, Meeting } from "@/lib/types";
+import type { ActionItem, Highlight, Meeting, TranscriptLine } from "@/lib/types";
 import { IconBack, IconClock, IconUsers } from "@/components/icons";
 
 export function MeetingDetail({ meeting }: { meeting: Meeting }) {
@@ -21,6 +22,8 @@ export function MeetingDetail({ meeting }: { meeting: Meeting }) {
   const playback = usePlayback(meeting.durationMin, start);
   const [query, setQuery] = useState("");
   const [activeLine, setActiveLine] = useState<string | null>(line);
+  const [seekN, setSeekN] = useState(0);
+  const [clip, setClip] = useState<{ startMs: number; endMs: number } | null>(null);
   const [userHighlights, setUserHighlights] = useState<Highlight[]>(() =>
     typeof window === "undefined" ? [] : loadUserHighlights(meeting.id),
   );
@@ -39,6 +42,35 @@ export function MeetingDetail({ meeting }: { meeting: Meeting }) {
     [meeting.actionItems, overrides],
   );
   const highlights = [...meeting.highlights, ...userHighlights].sort((a, b) => a.startMs - b.startMs);
+
+  function lineIdAt(ms: number, lineId?: string) {
+    if (lineId && meeting.transcript.some((item) => item.id === lineId)) return lineId;
+    const inside = meeting.transcript.find((item) => ms >= item.startMs && ms < item.endMs);
+    if (inside) return inside.id;
+    return meeting.transcript.reduce<TranscriptLine | undefined>((best, item) => {
+      if (!best) return item;
+      return Math.abs(item.startMs - ms) < Math.abs(best.startMs - ms) ? item : best;
+    }, undefined)?.id;
+  }
+
+  function jumpTo(ms: number, lineId?: string) {
+    playback.seek(ms);
+    const id = lineIdAt(ms, lineId);
+    if (!id) return;
+    setActiveLine(id);
+    setSeekN((n) => n + 1);
+    const template = params.get("template");
+    const templateQuery = template ? `&template=${template}` : "";
+    router.replace(`/meetings/${meeting.id}?t=${Math.round(ms)}&line=${id}${templateQuery}`, { scroll: false });
+  }
+
+  function openClip(startMs: number, endMs: number) {
+    const durationMs = meeting.durationMin * 60 * 1000;
+    setClip({
+      startMs: Math.max(0, Math.min(startMs, durationMs)),
+      endMs: Math.max(startMs + 1000, Math.min(endMs, durationMs)),
+    });
+  }
 
   if (meeting.status === "upcoming") {
     return (
@@ -119,22 +151,32 @@ export function MeetingDetail({ meeting }: { meeting: Meeting }) {
           activeLineId={activeLine}
           query={query}
           onQuery={setQuery}
-          onSeek={(ms, id) => {
-            playback.seek(ms);
-            setActiveLine(id);
-            router.replace(`/meetings/${meeting.id}?t=${Math.round(ms)}&line=${id}`, { scroll: false });
-          }}
+          playing={playback.playing}
+          seekN={seekN}
+          onSeek={jumpTo}
           onHighlight={(h) => setUserHighlights((curr) => [...curr, h])}
+          onShare={(item) => openClip(item.startMs, item.endMs)}
         />
         <SummaryPane
           meeting={meeting}
           actionItems={actionItems}
           highlights={highlights}
           currentMs={playback.currentMs}
+          initialTemplate={params.get("template")}
           onToggleAction={(id, next) => setOverrides((curr) => ({ ...curr, [id]: next }))}
-          onJump={(ms) => playback.seek(ms)}
+          onJump={jumpTo}
+          onShare={openClip}
         />
       </div>
+      {clip && (
+        <ShareClipModal
+          meeting={meeting}
+          initialStartMs={clip.startMs}
+          initialEndMs={clip.endMs}
+          onPreview={(ms) => jumpTo(ms)}
+          onClose={() => setClip(null)}
+        />
+      )}
     </div>
   );
 }

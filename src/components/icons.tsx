@@ -168,6 +168,27 @@ export function IconAsk(props: IconProps) {
   );
 }
 
+export function IconCalendarSync(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
+      <rect x="4" y="5.5" width="16" height="14" rx="2" />
+      <path d="M8 3.8v3M16 3.8v3M4 10h16" />
+      <path d="M12 13.2v2.6l1.8 1" />
+    </svg>
+  );
+}
+
+export function IconTemplates(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
+      <rect x="4" y="4" width="7" height="7" rx="1.5" />
+      <rect x="13" y="4" width="7" height="7" rx="1.5" />
+      <rect x="4" y="13" width="7" height="7" rx="1.5" />
+      <rect x="13" y="13" width="7" height="7" rx="1.5" />
+    </svg>
+  );
+}
+
 export function IconTrends(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>

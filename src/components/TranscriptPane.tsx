@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Avatar } from "@/components/Avatar";
-import { IconCheck, IconCopy, IconMark } from "@/components/icons";
+import { IconCheck, IconCopy, IconMark, IconShare } from "@/components/icons";
 import { formatClock } from "@/lib/format";
 import { saveUserHighlight } from "@/lib/storage";
 import type { Highlight, Meeting, TranscriptLine } from "@/lib/types";
@@ -13,16 +13,22 @@ export function TranscriptPane({
   activeLineId,
   query,
   onQuery,
+  playing,
+  seekN,
   onSeek,
   onHighlight,
+  onShare,
 }: {
   meeting: Meeting;
   currentMs: number;
   activeLineId?: string | null;
   query: string;
   onQuery: (q: string) => void;
+  playing?: boolean;
+  seekN?: number;
   onSeek: (ms: number, lineId: string) => void;
   onHighlight: (h: Highlight) => void;
+  onShare: (line: TranscriptLine) => void;
 }) {
   const [copied, setCopied] = useState(false);
   const [pulse, setPulse] = useState<{ id: string; n: number } | null>(() =>
@@ -47,9 +53,18 @@ export function TranscriptPane({
     if (id === activeLineId) scrollLine(id);
   }
 
+  const liveId = useMemo(() => {
+    const line = meeting.transcript.find((item) => currentMs >= item.startMs && currentMs < item.endMs);
+    return line?.id ?? null;
+  }, [meeting.transcript, currentMs]);
+
   useEffect(() => {
     if (activeLineId) scrollLine(activeLineId);
-  }, [activeLineId]);
+  }, [activeLineId, seekN]);
+
+  useEffect(() => {
+    if (playing && liveId) scrollLine(liveId);
+  }, [playing, liveId]);
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return meeting.transcript;
@@ -139,9 +154,19 @@ export function TranscriptPane({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    highlightLine(line);
+                    onShare(line);
                   }}
                   className="ml-auto hidden items-center gap-1 text-[11px] text-[var(--muted)] group-hover:flex hover:text-[var(--accent)]"
+                >
+                  <IconShare className="h-3.5 w-3.5" />
+                  Share clip
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    highlightLine(line);
+                  }}
+                  className="hidden items-center gap-1 text-[11px] text-[var(--muted)] group-hover:flex hover:text-[var(--accent)]"
                 >
                   <IconMark className="h-3.5 w-3.5" />
                   Highlight
