@@ -68,7 +68,7 @@ export function ShareClipModal({
           />
           <button
             onClick={copyLink}
-            className="inline-flex items-center gap-1 rounded-xl bg-[var(--mark)] px-3 text-xs font-medium text-[var(--on-mark)] hover:bg-[var(--mark-hover)]"
+            className="inline-flex items-center gap-1 rounded-full bg-[var(--mark)] px-3 text-xs font-medium text-[var(--on-mark)] hover:bg-[var(--mark-hover)]"
           >
             {copied ? <IconCheck className="h-3.5 w-3.5" /> : <IconCopy className="h-3.5 w-3.5" />}
             {copied ? "Copied" : "Copy"}
@@ -96,7 +96,7 @@ export function ShareClipModal({
           />
           <button
             type="submit"
-            className="mt-3 w-full rounded-xl bg-[var(--mark)] py-2.5 text-sm font-medium text-[var(--on-mark)] hover:bg-[var(--mark-hover)]"
+            className="mt-3 w-full rounded-full bg-[var(--mark)] py-2.5 text-sm font-medium text-[var(--on-mark)] hover:bg-[var(--mark-hover)]"
           >
             Send invite
           </button>
